@@ -1,0 +1,97 @@
+Element
+
+1.安装
+npm install element-ui --save
+可简写 npm i element-ui -S
+
+2.安装按需引入依赖
+npm install babel-plugin-component -D        # npm install babel-plugin-component --save-dev
+
+3.element引入分完整引入 和 按需引入
+完整引入：引入element-ui的所有组件
+按需引入：引入element-ui的指定的组件
+
+4.完整引入配置
+main.js文件中添加配置：
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+import ElementUI from 'element-ui'      // 导入element 额外添加
+import 'element-ui/lib/theme-chalk/index.css'   // 导入样式 额外添加
+
+Vue.config.productionTip = false
+
+Vue.use(ElementUI)      //引入element  ，额外添加
+
+
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  components: { App },
+  template: '<App/>'
+})
+
+这时候自己写的组件中就可以使用element
+
+5.按需引入
+5.1 配置main.js文件，添加下面的配置
+ import Vue from 'vue'
+ import App from './App'
+ import router from './router'
+
+ import { Button, Select, Row } from 'element-ui'     //  把需要的组件导入,额外添加
+
+ Vue.config.productionTip = false
+
+ Vue.use(Button)        //引入组件，额外添加
+ Vue.use(Select)
+ Vue.use(Row)
+
+
+ /* eslint-disable no-new */
+ new Vue({
+   el: '#app',
+   router,
+   components: { App },
+   template: '<App/>'
+ })
+
+5.2 配置.babelrc文件，这里的作用是按需加载样式，当然这步如果不作，可以像完整引入那样，把整个样式文件导入也可以的
+{
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false,
+        "targets": {
+          "browsers": [
+            "> 1%",
+            "last 2 versions",
+            "not ie <= 8"
+          ]
+        }
+      }
+    ],
+    "stage-2"
+  ],
+  "plugins": [
+    "transform-vue-jsx",
+    "transform-runtime",
+    [
+      "component",
+      {
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
+      }
+    ]
+  ]
+}
+
+到此我们自己在componets下写的组件就可以用element了
+
+
+
+
+
+

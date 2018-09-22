@@ -1,0 +1,173 @@
+1. 子父级组件交互
+2.VueX：
+uex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。
+
+共享数据状态
+
+什么情况下我应该使用 Vuex？
+虽然 Vuex 可以帮助我们管理共享状态，但也附带了更多的概念和框架。这需要对短期和长期效益进行权衡。
+
+如果您不打算开发大型单页应用，使用 Vuex 可能是繁琐冗余的。确实是如此——如果您的应用够简单，您最好不要使用 Vuex。
+一个简单的 store 模式就足够您所需了。但是，如果您需要构建一个中大型单页应用，您很可能会考虑如何更好地在组件外部管理状态，
+Vuex 将会成为自然而然的选择。
+
+Vue Components --(dispatch)-->  Actions --(commit)-->  Mutations --(mutate)--> State --(render)--> Vue Components
+注意：Action不是必需品，如果有异步操作才可能用到Action,否则可以不使用
+
+Action 类似于 mutation，不同在于：
+
+Action 提交的是 mutation，而不是直接变更状态。
+Action 可以包含任意异步操作。
+
+3.Vuex安装
+npm install vuex --save
+
+4.使用
+main.js  中导入Vuex
+
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+
+Vue.config.productionTip = false
+
+import Vuex from 'vuex'
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+  state:{
+    count:0
+  },
+  mutations:{
+    increment(state){
+      state.count++
+    },
+    jianjian(state){
+      state.count--
+    }
+  },
+  actions:{
+    add({commit}){
+      setTimeout(() => {
+        commit('increment')
+      }, 1000)
+      // context.commit('increment')
+    },
+    jian(context){
+      // context.commit('jianjian')
+      setTimeout(function () {
+        context.commit('jianjian')
+      }, 2000)
+    }
+  },
+  getters: {
+    getcou(state) {
+      return state.count > 0 ? state.count : 0
+    }
+  }
+
+})
+
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  store,
+  components: { App },
+  template: '<App/>'
+})
+
+
+这里使用其他组件里就能访问到
+this.$store    以这种方法访问store
+
+如Outer组件中访问store中的count
+
+<script>
+	export default {
+		name: "Outer",
+    data(){
+		  return{
+
+      }
+    },
+    computed:{
+		  getCount(){
+		    return this.$store.state.count
+      }
+    },
+    methods:{
+      increment(){
+        this.$store.commit('increment')
+      },
+      jianjian(){
+        this.$store.commit('jianjian')
+      }
+    }
+	}
+</script>
+
+
+5.为了让代码结构更浅析，可以把main.js文件中 store这部分的代码单独放到一个文件
+如在 src/store/index.js,然后面main.js中引入store
+src/store/index.js内容：
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.config.productionTip = false
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  state:{
+    count:0
+  },
+  mutations:{
+    increment(state){
+      state.count++
+    },
+    jianjian(state){
+      state.count--
+    }
+  },
+  actions:{
+    add({commit}){
+      setTimeout(() => {
+        commit('increment')
+      }, 1000)
+      // context.commit('increment')
+    },
+    jian(context){
+      // context.commit('jianjian')
+      setTimeout(function () {
+        context.commit('jianjian')
+      }, 2000)
+    }
+  },
+  getters: {
+    getcou(state) {
+      return state.count > 0 ? state.count : 0
+    }
+  }
+
+})
+
+
+main.js文件：
+
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+
+Vue.config.productionTip = false
+
+import store from './store/index'
+
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  store,
+  components: { App },
+  template: '<App/>'
+})
+
