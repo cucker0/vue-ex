@@ -1,20 +1,20 @@
-Ò»£ºÒıÓÃ vue.js·½·¨£º
+ä¸€ï¼šå¼•ç”¨ vue.jsæ–¹æ³•ï¼š
 
 # CDN
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 
 
-¶ş¡¢npm
+äºŒã€npm
 
-1 °²×°nodejs
+1 å®‰è£…nodejs
 https://nodejs.org/en/download/
-ÏÂÔØÏàÓ¦µÄ°æ±¾°²×°
+ä¸‹è½½ç›¸åº”çš„ç‰ˆæœ¬å®‰è£…
 
-2Ê¹ÓÃ¹úÄÚ¾µÏñ
+2ä½¿ç”¨å›½å†…é•œåƒ
 npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 
-»òÕßÄãÖ±½ÓÍ¨¹ıÌí¼Ó npm ²ÎÊı alias Ò»¸öĞÂÃüÁî:£º
+æˆ–è€…ä½ ç›´æ¥é€šè¿‡æ·»åŠ  npm å‚æ•° alias ä¸€ä¸ªæ–°å‘½ä»¤:ï¼š
 ```
 
 lias cnpm="npm --registry=https://registry.npm.taobao.org \
@@ -31,68 +31,68 @@ $ echo '\n#alias for cnpm\nalias cnpm="npm --registry=https://registry.npm.taoba
 
 ```
 
-3 °²×°Ä£°å
-cnpm install [name]     ÕâÑù¾Í»áÊ¹ÓÃ¹úÄÚ¾µÏñ£¬Ò²¿ÉÒÔ¼ÌĞøÊ¹ÓÃnpm
+3 å®‰è£…æ¨¡æ¿
+cnpm install [name]     è¿™æ ·å°±ä¼šä½¿ç”¨å›½å†…é•œåƒï¼Œä¹Ÿå¯ä»¥ç»§ç»­ä½¿ç”¨npm
 
 
-4 °²×°vue
+4 å®‰è£…vue
 npm install vue -g
-ĞèÒª°ÑnpmÈ«¾ÖÄ£¿éµÄÂ·¾¶Ìí¼Óµ½»·¾³±äÁ¿²ÅÄÜÔÚcmdÖĞÕÒµ½vueµÈÃüÁî¡£
-npmÈ«¾ÖÄ£¿éÂ·¾¶ Ä¬ÈÏ£ºC:\Users\cucker\AppData\Roaming\npm\npm_global
+éœ€è¦æŠŠnpmå…¨å±€æ¨¡å—çš„è·¯å¾„æ·»åŠ åˆ°ç¯å¢ƒå˜é‡æ‰èƒ½åœ¨cmdä¸­æ‰¾åˆ°vueç­‰å‘½ä»¤ã€‚
+npmå…¨å±€æ¨¡å—è·¯å¾„ é»˜è®¤ï¼šC:\Users\cucker\AppData\Roaming\npm\npm_global
 
-5 °²×°vue-cli£¨vue ½ÅÊÖ¼Ü,vue-cliÄÚÖÃÁËwebpack ¡¢webpack-simple£©
+5 å®‰è£…vue-cliï¼ˆvue è„šæ‰‹æ¶,vue-cliå†…ç½®äº†webpack ã€webpack-simpleï¼‰
 npm install vue-cli -g
 
-6 °²×°Â·ÓÉ
+6 å®‰è£…è·¯ç”±
 npm install vue-router -g
 
 
-7 ³õÊ¼»¯Ò»¸övueÏîÄ¿
-7.1³õÊ¼»¯vueÏîÄ¿
-vue init webpack ÏîÄ¿Ãû
+7 åˆå§‹åŒ–ä¸€ä¸ªvueé¡¹ç›®
+7.1åˆå§‹åŒ–vueé¡¹ç›®
+vue init webpack é¡¹ç›®å
 
-7.2°²×°ÒÀÀµ
+7.2å®‰è£…ä¾èµ–
 npm install
 
-7.3Æô¶¯
-cd ÏîÄ¿Ãû
+7.3å¯åŠ¨
+cd é¡¹ç›®å
 npm run dev
 
 
-Èı¡¢Ä£°åÓï·¨
-    ×é¼ş£º
-	    template:ÊÓÍ¼
-		script:Âß¼­
-		style:ÑùÊ½
+ä¸‰ã€æ¨¡æ¿è¯­æ³•
+    ç»„ä»¶ï¼š
+	    template:è§†å›¾
+		script:é€»è¾‘
+		style:æ ·å¼
 
 
-    Mustache Ä£°å
-	±íÏÖĞÎÊ½£º{{ Óï·¨ }}
-		{{µ¥ĞĞÓï¾ä}}
+    Mustache æ¨¡æ¿
+	è¡¨ç°å½¢å¼ï¼š{{ è¯­æ³• }}
+		{{å•è¡Œè¯­å¥}}
 	
 	    {{ hello }}
 		{{ 1+10 }}
-		<!--{{ ¹ş¹ş }}   »á±¨´í-->
-		<p>{{ "ÄãºÃÑ½" }}</p>
-		<p>{{ ¹ã¶« }}</p>
+		<!--{{ å“ˆå“ˆ }}   ä¼šæŠ¥é”™-->
+		<p>{{ "ä½ å¥½å‘€" }}</p>
+		<p>{{ å¹¿ä¸œ }}</p>
 		<p>{{ 1> 10  ? 'ok': 'error' }}</p>
 
 		
-		v-html:äÖÈ¾ÎÄ±¾
-		v-text:äÖÈ¾ÎÄ±¾
-		v-bind:°ó¶¨
+		v-html:æ¸²æŸ“æ–‡æœ¬
+		v-text:æ¸²æŸ“æ–‡æœ¬
+		v-bind:ç»‘å®š
 		v-if
 		v-else
 		v-else-if
-		v-show£ºÍ¨¹ıcss¿ØÖÆÊÇ·ñÏÔÊ¾
+		v-showï¼šé€šè¿‡cssæ§åˆ¶æ˜¯å¦æ˜¾ç¤º
 		
-		ÁĞ±íäÖÈ¾
+		åˆ—è¡¨æ¸²æŸ“
 		
-		ÊÂ¼ş¼àÌı£ºv-on
-		¼òĞ´£º@
+		äº‹ä»¶ç›‘å¬ï¼šv-on
+		ç®€å†™ï¼š@
 
-		°ó¶¨£ºv-bind
-		¼òĞ´£º:
+		ç»‘å®šï¼šv-bind
+		ç®€å†™ï¼š:
 
 
 

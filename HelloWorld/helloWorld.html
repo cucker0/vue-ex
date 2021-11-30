@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+    <script src="../static/js/vue.js"></script>
+</head>
+<body>
+
+<!-- MVVM -->
+
+<div id="app">  <!-- View -- V -->
+    <input type="text" v-model="message">
+    <p>Hello {{message}}</p>
+</div>
+
+<script type="text/javascript">
+    // vm 就是new出来的vue实例对象--VM, ViewModel
+    const vm = new Vue({
+        el: '#app',  // element 选择器
+        data: {  // 数据模型(model) --M
+            message: 'Hello Vue!'
+        }
+    })
+
+</script>
+</body>
+</html>
