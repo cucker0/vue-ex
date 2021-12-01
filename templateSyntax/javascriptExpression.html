@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../static/js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!-- 算术运算 -->
+    <p>{{ number + 1 }}</p>
+
+    <!-- 三元表达式 -->
+    <p>
+        <span>3 > 4 ?</span>
+        {{ 3 > 4 ? 'YES' : 'NO' }}
+    </p>
+
+    <!-- 调用方法 -->
+    <div>{{ msg.split('').reverse().join('') }}</div>
+
+    <!-- 字符串连接 -->
+    <p v-bind:id="'no_' + dynamicId">字符串连接</p>
+</div>
+
+<script>
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            number: 100,
+            msg: "我是中国人",
+            dynamicId: 100
+        }
+    })
+</script>
+
+</body>
+</html>

@@ -80,6 +80,7 @@ doc文档
     ```html
     {{变量}}
     ```
+    Mustache标签
     
 * 示例
     ```html
@@ -150,10 +151,45 @@ doc文档
 效果：
 ![](../image/rawHtml.png)
 
+### html属性绑定变量
+使用`v-bind`指令
+
+* 语法
+    ```html
+    v-bind:属性名="变量名"
+    ```
+
+[示例](../templateSyntax/attribute.html)
+```html
+<div v-bind:id="dynamicId"></div>
+```
+
+```html
+<button v-bind:disabled="isButtonDisabled">Button</button>
+```
+当变量`isButtonDisabled`不为 null、undefined 或 false，则等效于 `disabled="disabled"`
 
 
+### 使用JavaScript表达式
+[示例](../templateSyntax/javascriptExpression.html)
 
+```html
+    <!-- 算术运算 -->
+    <p>{{ number + 1 }}</p>
 
+    <!-- 三元表达式 -->
+    <p>
+        <span>3 > 4 ?</span>
+        {{ 3 > 4 ? 'YES' : 'NO' }}
+    </p>
 
+    <!-- 调用方法 -->
+    <div>{{ msg.split('').reverse().join('') }}</div>
+
+    <!-- 字符串连接 -->
+    <p v-bind:id="'no_' + dynamicId">字符串连接</p>
+```
+
+## 指令
 
 

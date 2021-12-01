@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../static/js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div v-bind:id="dynamicId">属性与变量绑定</div>
+    <p>
+        <button v-bind:disabled="isButtonDisabled">Button</button>
+    </p>
+</div>
+
+<script>
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            dynamicId: 1024,
+            isButtonDisabled: true
+        }
+    })
+</script>
+
+</body>
+</html>
