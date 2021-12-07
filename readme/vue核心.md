@@ -190,6 +190,114 @@ doc文档
     <p v-bind:id="'no_' + dynamicId">字符串连接</p>
 ```
 
-## 指令
+### 指令
+指令是带有 `v-` 前缀的特殊 html属性。
+
+指令的职责是：当表达式的值改变时，将产生的连带影响，响应式地作用于DOM。`v-for`指令除外。
+
+```html
+<p v-if="seen">现在你看到我了</p>
+```
+这里的`v-if`指令将根据表达式`seen`的值的true/false 来插入/移除`<p>`元素
+
+#### 指令参数(静态)
+一些指令能够接受一个"参数"
+
+##### 指令将响应式地更新指定的属性
+* 语法
+    >指令:属性
+
+* 示例
+    ```html
+    <a v-bind:href="url">点我呀</a>
+    ```
+    这里的参数是属性名
+    
+##### 监听DOM事件
+* 语法
+    >指令:事件名
+
+* 示例
+    ```html
+    <div v-on:click="func1">提交</div>
+    ```
+    这里的参数是事件名
+    
+#### 指令动态参数
+v2.6.0新增
+
+使用"[参数]"的JavaScript表达式来表示动态指令参数。
+
+* 动态参数为属性
+    ```html
+    <a v-bind:[attribute_name]="url"> ... </a>
+    ```
+    这里的 `attributeName` 会被作为一个 JavaScript 表达式进行动态求值，求得的值将会作为最终的参数来使用。
+    
+    例如，如果你的 Vue 实例有一个 data property attributeName，其值为 "href"，`v-bind:[attribute_name]`将等价于 `v-bind:href`。
+
+* 动态参数为事件名
+    ```html
+    <a v-on:[event_name]="doSomething"> ... </a>
+    ```
+    在这个示例中，当 eventName 的值为 "focus" 时，`v-on:[event_name]` 将等价于 `v-on:focus`。
+
+##### 对动态参数的值的约束
+动态参数预期会求出一个字符串，异常情况下值为 `null`。这个特殊的 `null` 值可以被显性地用于移除绑定。
+
+任何其它非字符串类型的值都将会触发一个警告。
+
+##### 对动态参数表达式的约束
+动态参数表达式有一些语法约束，因为某些字符，如`空格`和`引号`，放在 HTML attribute 名里是无效的。
+
+在 DOM 中使用模板时 (直接在一个 HTML 文件里撰写模板)，还需要避免使用大写字符来命名键名，因为浏览器会把 attribute 名全部强制转为小写。
+
+* 示例
+    ```html
+    <!-- 这会触发一个编译警告 -->
+    <a v-bind:['foo' + bar]="value"> ... </a>
+    ```
+    变通的办法是使用没有空格或引号的表达式，或用计算属性替代这种复杂表达式。
 
 
+    ```html
+    <!--
+    在 DOM 中使用模板时这段代码会被转换为 `v-bind:[someattr]`。
+    除非在实例中有一个名为“someattr”的 property，否则代码不会工作。
+    -->
+    <a v-bind:[someAttr]="value"> ... </a>
+    ```
+
+#### 事件修饰符
+修饰符 (modifier) 是以半角句号 `.` 指明的特殊后缀，用于指出一个指令应该以特殊方式绑定。
+
+* 示例
+    `.prevent` 修饰符告诉 v-on 指令对于触发的事件调用 event.preventDefault()
+    ```html
+    <form v-on:submit.prevent="onSubmit">...</form>
+    ```
+#### 常用指令的缩写
+##### v-bind缩写为`:`
+```html
+<!-- 完整语法 -->
+<a v-bind:href="url">...</a>
+
+<!-- 缩写 -->
+<a :href="url">...</a>
+
+<!-- 动态参数的缩写 (2.6.0+) -->
+<a :[key]="url"> ... </a>
+```
+
+##### v-on缩写为`@`
+```html
+<!-- 完整语法 -->
+<a v-on:click="doSomething">...</a>
+
+<!-- 缩写 -->
+<a @click="doSomething">...</a>
+
+<!-- 动态参数的缩写 (2.6.0+) -->
+<a @[event]="doSomething"> ... </a>
+```
+    
