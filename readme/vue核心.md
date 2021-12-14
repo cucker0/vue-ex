@@ -192,6 +192,7 @@ doc文档
 
 ### 指令
 指令是带有 `v-` 前缀的特殊 html属性。
+如 v-bind:、v-on:、v-model、v-once、v-show、v-pre、v-html、v-text、v-if、v-else、v-else-if、
 
 指令的职责是：当表达式的值改变时，将产生的连带影响，响应式地作用于DOM。`v-for`指令除外。
 
@@ -277,7 +278,7 @@ v2.6.0新增
     <form v-on:submit.prevent="onSubmit">...</form>
     ```
 #### 常用指令的缩写
-##### v-bind缩写为`:`
+##### v-bind:缩写为`:`
 ```html
 <!-- 完整语法 -->
 <a v-bind:href="url">...</a>
@@ -289,7 +290,7 @@ v2.6.0新增
 <a :[key]="url"> ... </a>
 ```
 
-##### v-on缩写为`@`
+##### v-on:缩写为`@`
 ```html
 <!-- 完整语法 -->
 <a v-on:click="doSomething">...</a>
@@ -300,4 +301,6 @@ v2.6.0新增
 <!-- 动态参数的缩写 (2.6.0+) -->
 <a @[event]="doSomething"> ... </a>
 ```
-    
+
+
+## 计算属性、侦听器

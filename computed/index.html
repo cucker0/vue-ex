@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../static/js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    姓：<input type="text" placeholder="First name" v-model="firstName"> <br>
+    名：<input type="text" placeholder="Last name" v-model="lastName"> <br>
+    姓名1（单向）：<input type="text" placeholder="Full name1" v-model="fullName1"> <br>
+    姓名2（单向）：<input type="text" placeholder="Full name2"> <br>
+    姓名3（双向）：<input type="text" placeholder="Full name3"> <br>
+
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            firstName: "Ben",
+            lastName: "Jeff",
+        },
+        computed: {
+            // 什么触发时候执行：DOM初始化显示时、或 相关的属性发生改变时。
+            // 计算属性的值为：方法的返回值。
+            fullName1: function () {
+                return this.firstName + " " + this.lastName;
+            }
+        }
+    })
+</script>
+
+</body>
+</html>
