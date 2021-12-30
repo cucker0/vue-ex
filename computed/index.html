@@ -2,34 +2,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>计算属性(computed) 和 侦听器(watch)</title>
     <script src="../static/js/vue.js"></script>
 </head>
 <body>
 <div id="app">
     姓：<input type="text" placeholder="First name" v-model="firstName"> <br>
     名：<input type="text" placeholder="Last name" v-model="lastName"> <br>
-    姓名1（单向）：<input type="text" placeholder="Full name1" v-model="fullName1"> <br>
-    姓名2（单向）：<input type="text" placeholder="Full name2"> <br>
-    姓名3（双向）：<input type="text" placeholder="Full name3"> <br>
+    姓名1（单向,computed）：<input type="text" placeholder="Full name1" v-model="fullName1"> <br>
+    姓名2（单向,watch）：<input type="text" placeholder="Full name2" v-model="fullName2"> <br>
+    姓名3（双向）：<input type="text" placeholder="Full name3" v-model="fullname3"> <br>
 
+    <div style="margin-top: 100px">
+        <p>{{fullName1}}</p>
+        <p>{{fullName1}}</p>
+        <p>{{fullName1}}</p>
+    </div>
 </div>
 
 <script>
-    new Vue({
+    const vm = new Vue({
         el: '#app',
         data: {
             firstName: "Ben",
             lastName: "Jeff",
+            fullName2: "Ben Jeff",
         },
         computed: {
             // 什么触发时候执行：DOM初始化显示时、或 相关的属性发生改变时。
             // 计算属性的值为：方法的返回值。
             fullName1: function () {
+                console.log('=== fullName1() function ===');
                 return this.firstName + " " + this.lastName;
+            },
+            // 双向绑定数据
+            fullname3: {
+                // getter
+                get() {
+                    return this.firstName + ' ' + this.lastName;
+                },
+                // setter
+                set(value) {
+                    value = value.trim();
+                    var name = value.split(' ');
+                    if (name.length < 2) {
+                        return
+                    }
+                    this.firstName = name[0];
+                    this.lastName = name[1];
+                }
+            }
+        },
+        // watch侦听器有两种写法。写法1
+        watch: {
+            // firstName 为侦听的对象，即当前vm对象的.data.firstName 对象
+            // 当函数值传一个值时，为newVal(侦听对象发生改变后的值)
+            // function (newVal) {}
+            /**
+             *
+             * @param newVal: 改变后的值
+             * @param olVal: 改变前的值
+             */
+            firstName: function (newVal, olVal) {
+                this.fullName2 = newVal + ' ' + this.lastName;
             }
         }
-    })
+    });
+
+    // watch侦听器的写法2, 参考 https://cn.vuejs.org/v2/api/#vm-watch
+    // vm.$watch() 方法的第一个参数为侦听的对象，第二个参数为侦听对象发生改变后要调用的函数
+    vm.$watch('lastName', function (newVal, oldVal) {
+        this.fullName2 = this.firstName + ' ' + newVal;
+    });
 </script>
 
 </body>
