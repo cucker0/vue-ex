@@ -151,7 +151,7 @@ doc文档
 效果：
 ![](../image/rawHtml.png)
 
-### html属性绑定变量
+#### html属性绑定变量
 使用`v-bind`指令
 
 * 语法
@@ -170,7 +170,7 @@ doc文档
 当变量`isButtonDisabled`不为 null、undefined 或 false，则等效于 `disabled="disabled"`
 
 
-### 使用JavaScript表达式
+#### 使用JavaScript表达式
 [示例](../templateSyntax/javascriptExpression.html)
 
 ```html
@@ -278,7 +278,7 @@ v2.6.0新增
     <form v-on:submit.prevent="onSubmit">...</form>
     ```
 #### 常用指令的缩写
-##### v-bind:缩写为`:`
+##### `v-bind:`缩写为`:`
 ```html
 <!-- 完整语法 -->
 <a v-bind:href="url">...</a>
@@ -290,7 +290,7 @@ v2.6.0新增
 <a :[key]="url"> ... </a>
 ```
 
-##### v-on:缩写为`@`
+##### `v-on:`缩写为`@`
 ```html
 <!-- 完整语法 -->
 <a v-on:click="doSomething">...</a>
@@ -302,6 +302,25 @@ v2.6.0新增
 <a @[event]="doSomething"> ... </a>
 ```
 
+##### 注意事项
+[参考](https://v3.cn.vuejs.org/guide/template-syntax.html#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9)
+
+* 对动态参数值约定
+
+    动态参数预期会求出一个字符串，null 例外。  
+这个特殊的 null 值可以用于显式地移除绑定。  
+任何其它非字符串类型的值都将会触发一个警告。
+
+* 对动态参数表达式约定
+
+    动态参数表达式有一些语法约束，因为某些字符，如空格和引号，放在 HTML attribute 名里是无效的。
+    
+    ```html
+    <!-- 这会触发一个编译警告 -->
+    <a v-bind:['foo' + bar]="value"> ... </a>
+    ```
+
+* Java 表达式
 
 ## 计算属性、侦听器
 
