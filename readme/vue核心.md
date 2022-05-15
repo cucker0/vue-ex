@@ -49,7 +49,7 @@ doc文档
 ## vue的基本使用
 
 ### vue Hello World
-[helloWorld.html](../HelloWorld/helloWorld.html)
+[helloWorld.html](../vue_basic/helloWorld.html)
 
 
 [![Hello World](../image/helloWord.png)](../static/video/vue_helloWorld.wmv "Vue Hello World")
@@ -322,11 +322,214 @@ v2.6.0新增
 
 * Java 表达式
 
+## Data Property 和 methods
+组件`data()`选项是一个函数，该函数返回一个对象。  
+Vue 会在创建组件实例的过程中调用`data()`函数，以`$data` 形式存储在组件实例中。
+
+* 实例
+    ```js
+    const app = Vue.createApp({
+      data() {
+        return { count: 4 }
+      }
+    })
+    
+    const vm = app.mount('#app')
+    
+    console.log(vm.$data.count) // => 4
+    console.log(vm.count)       // => 4
+    
+    // 修改 vm.count 的值也会更新 $data.count
+    vm.count = 5
+    console.log(vm.$data.count) // => 5
+    
+    // 反之亦然
+    vm.$data.count = 6
+    console.log(vm.count) // => 6
+    ```
+
+
+
 ## 计算属性、侦听器
+* 回调函数的特定
+    * 用户定的函数
+    * 用户自己没有调用
+    * 在一定条件下触发调用了
 
-### 回调函数的特定
-* 用户定的函数
-* 用户自己没有调用
-* 在一定条件下触发调用了
+### computed 计算属性
+计算属性是下面这部分
+```js
+const vm = new Vue({
+        computed: {
+            // ...    
+        }
+    })
+```
+
+* 什么触发时候执行  
+    DOM初始化显示时、或 相关的属性发生改变时。
+* 计算属性的值为  
+    方法的返回值。
+* 可以为计算属性设置 getter、setter方法，实现数据的双向绑定（显示数据和侦听到数据改变时更新）
+* 计算属性存在缓存，多次读取只执行一次getter方法。
+* 使用 `{{计算属性名}}` 或 `{{计算函数名}}` 来显示计算属性的值
+
+#### computed计算属性缓存 vs 方法
+[示例](../vue_basic/computed_vs_methed.html)
+
+访问时 console 控制输出的信息
+![](../image/computed属性缓存vs方法.png)
+
+#### 计算属性 vs 侦听器
+当你有一些数据需要随着其它数据变动而变动时，`watch` 很容易被滥用。
+
+* watch 版本
+
+html代码
+```html
+<div id="demo">{{ fullName }}</div>
+```
+
+js代码
+```js
+const vm = Vue.createApp({
+  data() {
+    return {
+      firstName: 'Foo',
+      lastName: 'Bar',
+      fullName: 'Foo Bar'
+    }
+  },
+  watch: {
+    firstName(val) {
+      this.fullName = val + ' ' + this.lastName
+    },
+    lastName(val) {
+      this.fullName = this.firstName + ' ' + val
+    }
+  }
+}).mount('#demo')
+```
+
+缺点：上面代码是命令式且重复的。
+
+* 计算属性的版本
+```js
+const vm = Vue.createApp({
+  data() {
+    return {
+      firstName: 'Foo',
+      lastName: 'Bar'
+    }
+  },
+  computed: {
+    fullName() {
+      return this.firstName + ' ' + this.lastName
+    }
+  }
+}).mount('#demo')
+```
+这样简洁很多。
+
+### watch 侦听器
+侦听器是下面这分部
+```js
+const vm = new Vue({
+        watch: {
+            // firstName 为侦听的对象，即当前vm对象的.data.firstName 对象
+            // 当函数值传一个值时，为newVal(侦听对象发生改变后的值)
+            // function (newVal) {}
+            /**
+             *
+             * @param newVal: 改变后的值
+             * @param olVal: 改变前的值
+             */
+            firstName: function (newVal, olVal) {
+                this.fullName2 = newVal + ' ' + this.lastName;
+            }
+        }
+    })
+```
+* 什么时候触发侦听器执行  
+    当侦听的对象发生变化时执行。
+ 
+[vue计算属性与侦听器 演示](../static/video/vue计算属性与侦听器.wmv)
 
 
+## class 与 style 绑定
+操作元素的 class 列表和内联样式是数据绑定的一个常见需求。因为它们都是 attribute，
+
+所以我们可以用 v-bind 处理它们：只需要通过表达式计算出字符串结果即可。不过，字符串拼接麻烦且易错。
+
+因此，在将 v-bind 用于 class 和 style 时，Vue.js 做了专门的增强。
+
+### class绑定
+格式：
+```html
+:class="xxx"
+```
+`:class` 是 `v-bind:class` 的简写
+
+xxx 是字符串或字符串变量  
+xxx 是对象  
+xxx 是数组
+
+* 对象语法
+    
+    ```html
+    <p class="staticClass" :class="myclass">xxx是字符串 或 字符串变量</p>
+    ```
+    ```js
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                myclass: "aClass",
+                isA: true,
+                isC: false,
+                errorClass: "alert",  // 值为上面的 .error css样式
+                activeClass: "active"  // 值为上面的 .active css样式
+            },
+            methods: {
+                changecolor() {
+                    this.myclass = this.myclass === "aClass" ? "bClass" : "aClass"
+                },
+                objectbind() {
+                    this.isC = true
+                }
+            }
+        });
+    ```
+    
+    渲染的结果为
+    ```html
+    <p class="staticClass aClass">xxx是字符串 或 字符串变量</p>
+    ```
+    ![](../image/class绑定1.png)
+    
+    点击一次 `更改颜色` 按钮后的渲染结果为
+    ```html
+    <p class="staticClass bClass">xxx是字符串 或 字符串变量</p>
+    ```
+    ![](../image/class绑定2.png)
+    
+    * 绑定的class为一个计算属性(返回的对象)
+    
+        [class绑定计算属性返回的对象](../vue_basic/class_bind_object.html)
+        
+        渲染结果为：
+        ```html
+        <p class="staticClass active">xxx是对象(计算属性返回的对象，常用且强大的模式)</p>
+        ```
+        
+* 数组语法
+    ```html
+    <p :class="[activeClass, errorClass]">xxx是数组</p>
+    ```
+    
+    渲染的结果为
+    ```html
+    <p class="active alert">xxx是数组</p>
+    ```
+    ![](../image/class绑定3.png)
+
+### style绑定

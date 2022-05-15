@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>computed属性缓存 vs methods</title>
+    <script src="../static/js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    姓：<input type="text" placeholder="First name" v-model="firstName"> <br>
+    名：<input type="text" placeholder="Last name" v-model="lastName"> <br>
+    姓名1（单向,computed）：<input type="text" placeholder="Full name1" v-model="fullName1"> <br>
+
+    <div style="margin-top: 100px">
+        <!-- 调用 computed 属性的方式 -->
+        <p>{{fullName1}}</p>
+        <p>{{fullName1}}</p>
+        <p>{{fullName1}}</p>
+    </div>
+    <div style="margin-top: 100px">
+        <!-- 调用 method 的方式 -->
+        <p>{{fullName2()}}</p>
+        <p>{{fullName2()}}</p>
+        <p>{{fullName2()}}</p>
+    </div>
+</div>
+
+<script>
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            firstName: "Ben",
+            lastName: "Jeff"
+        },
+        computed: {
+            // 什么触发时候执行：DOM初始化显示时、或 相关的属性发生改变时。
+            // 计算属性的值为：方法的返回值。
+            fullName1: function () {
+                console.log('=== fullName1 computed 属性 ===');
+                return this.firstName + " " + this.lastName;
+            }
+        },
+        methods: {
+            fullName2() {
+                console.log('=== fullName2() method ===');
+                return this.firstName + " " + this.lastName;
+            }
+        }
+    }
+);
+</script>
+
+</body>
+</html>

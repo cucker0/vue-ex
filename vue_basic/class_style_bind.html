@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>class 与 style 绑定</title>
+    <script src="../static/js/vue.js"></script>
+
+    <style type="text/css">
+        .staticClass {
+            font-size: 30px;
+        }
+        .aClass {
+            color: red;
+        }
+        .bClass {
+            color: green;
+        }
+        .cClass {
+            text-decoration:underline;
+            text-decoration-color: blue;
+        }
+        .alert {
+            background: yellowgreen;
+        }
+        .active {
+            color: yellow;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h2>class 绑定。:class="xxx"</h2>
+    <p class="staticClass" :class="myclass">xxx是字符串 或 字符串变量</p>
+    <p :class="{aClass: isA, cClass: isC}">xxx是对象</p>
+    <p :class="[activeClass, errorClass]">xxx是数组</p>
+
+
+    <button @click="changecolor">更改颜色</button>
+    <button @click="objectbind">class对象形式</button>
+</div>
+
+<script type="text/javascript">
+    const vm = new Vue({
+        el: "#app",
+        data: {
+            myclass: "aClass",
+            isA: true,
+            isC: false,
+            errorClass: "alert",  // 值为上面的 .error css样式
+            activeClass: "active"  // 值为上面的 .active css样式
+        },
+        methods: {
+            changecolor() {
+                this.myclass = this.myclass === "aClass" ? "bClass" : "aClass"
+            },
+            objectbind() {
+                this.isC = true
+            }
+        }
+    });
+</script>
+</body>
+</html>

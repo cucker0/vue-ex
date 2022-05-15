@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>class 绑定--对象(计算属性返回的对象)</title>
+    <script src="../static/js/vue.js"></script>
+
+    <style type="text/css">
+        .staticClass {
+            font-size: 30px;
+        }
+        .active {
+            color: green;
+        }
+        .text-danger {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h2>class 绑定。:class="xxx"</h2>
+    <p class="staticClass" :class="classObject">xxx是对象(计算属性返回的对象，常用且强大的模式)</p>
+</div>
+
+<script type="text/javascript">
+    const vm = new Vue({
+        el: "#app",
+        data: {
+            isActive: true,
+            error: null
+        },
+        computed: {
+            classObject() {
+                return {
+                    active: this.isActive && !this.error,
+                    'text-danger': this.error && this.error.type === 'fatal'
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
