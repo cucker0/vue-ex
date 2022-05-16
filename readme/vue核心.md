@@ -474,7 +474,7 @@ xxx 是字符串或字符串变量
 xxx 是对象  
 xxx 是数组
 
-* 对象语法
+* 是字符串或字符串变量
     
     ```html
     <p class="staticClass" :class="myclass">xxx是字符串 或 字符串变量</p>
@@ -512,6 +512,39 @@ xxx 是数组
     ```
     ![](../image/class绑定2.png)
     
+
+* 对象语法(对象key为css class中，值为true则添加该class，否则不添加)
+    html
+    ```html
+    <p :class="{aClass: isA, cClass: isC}">xxx是对象</p>
+    ```
+    
+    js
+    ```js
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                myclass: "aClass",
+                isA: true,
+                isC: false,
+                errorClass: "alert",  // 值为上面的 .error css样式
+                activeClass: "active"  // 值为上面的 .active css样式
+            },
+            methods: {
+                changecolor() {
+                    this.myclass = this.myclass === "aClass" ? "bClass" : "aClass"
+                },
+                objectbind() {
+                    this.isC = true
+                }
+            }
+        });
+    ```
+    渲染结果：
+    ```html
+    <p class="aClass">xxx是对象</p>
+    ```
+    
     * 绑定的class为一个计算属性(返回的对象)
     
         [class绑定计算属性返回的对象](../vue_basic/class_bind_object.html)
@@ -522,6 +555,8 @@ xxx 是数组
         ```
         
 * 数组语法
+
+    数组元素为 css 样式名
     ```html
     <p :class="[activeClass, errorClass]">xxx是数组</p>
     ```
@@ -533,3 +568,68 @@ xxx 是数组
     ![](../image/class绑定3.png)
 
 ### style绑定
+`:style` 的对象语法十分直观——看着非常像 CSS，但其实是一个 JavaScript 对象。
+
+* 对象语法
+    示例格式：
+    ```html
+    <div :style="{color: activeColor, fontSize: fontsize + 'px'}">style绑定内联样式</div>
+    ```
+    
+    [class_style_bind](../vue_basic/class_style_bind.html)
+    
+    html
+    ```html
+    <div :style="{color: activeColor, fontSize: fontsize + 'px'}">style绑定内联样式</div>
+    ```
+    
+    js
+    ```js
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                fontsize: 30,
+                activeColor: "blue"
+            }
+        });
+    ```
+    
+    渲染结果
+    ```html
+    <div style="color: blue; font-size: 30px;">style绑定内联样式</div>
+    ```
+
+    * style 直接绑定到一个样式对象
+        
+        [style_bind_object](../vue_basic/style_bind_object.html)
+        
+        html
+    
+        ```html
+        <p :style="styleObject">style 绑定(计算属性返回的一个对象)</p>
+        ```
+        js
+        ```js
+            const vm = new Vue({
+                el: "#app",
+                data: {
+                    isActive: true,
+                    error: null
+                },
+                computed: {
+                    styleObject() {
+                        return {
+                            color: 'red',
+                            fontSize: '18px'
+                        }
+                    }
+                }
+            });
+        ```
+        渲染结果：
+        ```html
+        <p style="color: red; font-size: 18px;">style 绑定(计算属性返回的一个对象)</p>
+        ```
+    
+* 数组语法
+

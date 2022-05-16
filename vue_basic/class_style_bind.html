@@ -37,6 +37,9 @@
 
     <button @click="changecolor">更改颜色</button>
     <button @click="objectbind">class对象形式</button>
+
+    <h2>style 绑定</h2>
+    <div :style="{color: activeColor, fontSize: fontsize + 'px'}">style绑定内联样式</div>
 </div>
 
 <script type="text/javascript">
@@ -47,7 +50,9 @@
             isA: true,
             isC: false,
             errorClass: "alert",  // 值为上面的 .error css样式
-            activeClass: "active"  // 值为上面的 .active css样式
+            activeClass: "active",  // 值为上面的 .active css样式
+            fontsize: 30,
+            activeColor: "blue"
         },
         methods: {
             changecolor() {
