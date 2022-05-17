@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-if</title>
+    <script src="../static/js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <p v-if="isSuccess">成功了</p>
+    <p v-else>失败了</p>
+    <button @click="tochange()">切换isSuccess值</button>
+</div>
+
+<script>
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            isSuccess: true
+        },
+        methods: {
+            tochange() {
+                this.isSuccess = !this.isSuccess
+            },
+        }
+    });
+</script>
+</body>
+</html>
