@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>class 与 style 绑定</title>
+    <title>class 绑定</title>
     <script src="../static/js/vue.js"></script>
 
     <style type="text/css">
@@ -29,17 +29,22 @@
 </head>
 <body>
 <div id="app">
-    <h2>class 绑定。:class="xxx"</h2>
-    <p class="staticClass" :class="myclass">xxx是字符串 或 字符串变量</p>
-    <p :class="{aClass: isA, cClass: isC}">xxx是对象</p>
-    <p :class="[activeClass, errorClass]">xxx是数组</p>
+    <h2>class 绑定--class类名或class类名变量</h2>
+    <p class="staticClass" :class="myclass">xxx是class类名 或 class类名变量 -- :class="myclass" , myclass = "aClass"</p>
+
+
+    <h2 >class 绑定--对象语法</h2>
+    <p :class="{aClass: isA, cClass: isC}">xxx是对象 -- :class="{aClass: isA, cClass: isC}", isA值true 表示 aClass 这个样式添加,否则不添加</p>
+
+    <h2>class 绑定--数组语法</h2>
+    <p :class="[activeClass, errorClass]">xxx是数组 -- :class="[activeClass, errorClass]", 元素值为$data.的key,值为css class名</p>
 
 
     <button @click="changecolor">更改颜色</button>
     <button @click="objectbind">class对象形式</button>
 
-    <h2>style 绑定</h2>
-    <div :style="{color: activeColor, fontSize: fontsize + 'px'}">style绑定内联样式</div>
+
+
 </div>
 
 <script type="text/javascript">

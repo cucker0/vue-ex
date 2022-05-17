@@ -470,14 +470,14 @@ const vm = new Vue({
 ```
 `:class` 是 `v-bind:class` 的简写
 
-xxx 是字符串或字符串变量  
+xxx 是class类名或class类名变量 
 xxx 是对象  
 xxx 是数组
 
-* 是字符串或字符串变量
+* 是class类名或class类名变量
     
     ```html
-    <p class="staticClass" :class="myclass">xxx是字符串 或 字符串变量</p>
+    <p class="staticClass" :class="myclass">xxx是class类名 或 class类名变量 -- :class="myclass" , myclass = "aClass"</p>
     ```
     ```js
         const vm = new Vue({
@@ -502,7 +502,7 @@ xxx 是数组
     
     渲染的结果为
     ```html
-    <p class="staticClass aClass">xxx是字符串 或 字符串变量</p>
+    <p class="staticClass aClass">xxx是class类名 或 class类名变量 -- :class="myclass" , myclass = "aClass"</p>
     ```
     ![](../image/class绑定1.png)
     
@@ -558,14 +558,15 @@ xxx 是数组
 
     数组元素为 css 样式名
     ```html
-    <p :class="[activeClass, errorClass]">xxx是数组</p>
+    <p :class="[activeClass, errorClass]">xxx是数组 -- :class="[activeClass, errorClass]", 元素值为$data.的key,值为css class名</p>
     ```
     
     渲染的结果为
     ```html
-    <p class="active alert">xxx是数组</p>
+    <p class="active alert">xxx是数组...</p>
     ```
     ![](../image/class绑定3.png)
+    
 
 ### style绑定
 `:style` 的对象语法十分直观——看着非常像 CSS，但其实是一个 JavaScript 对象。
@@ -576,7 +577,7 @@ xxx 是数组
     <div :style="{color: activeColor, fontSize: fontsize + 'px'}">style绑定内联样式</div>
     ```
     
-    [class_style_bind](../vue_basic/class_style_bind.html)
+    [style_bind](../vue_basic/style_bind.html)
     
     html
     ```html
@@ -601,7 +602,7 @@ xxx 是数组
 
     * style 直接绑定到一个样式对象
         
-        [style_bind_object](../vue_basic/style_bind_object.html)
+        [style_bind](../vue_basic/style_bind.html)
         
         html
     
@@ -632,4 +633,24 @@ xxx 是数组
         ```
     
 * 数组语法
-
+    
+    html
+    ```html
+    <div :style="[baseStyles, overridingStyles]">sytle绑定(数组语法)...</div>
+    ```
+    
+    js
+    ```js
+     const vm = new Vue({
+             el: "#app",
+             data: {
+                 baseStyles: {color: "#112233"},
+                 overridingStyles: {background: "#bfa"}
+             },
+           })
+    ```
+    
+    渲染结果:
+    ```html
+    <div style="color: rgb(17, 34, 51); background: rgb(187, 255, 170);">sytle绑定(数组语法)...</div>
+    ```

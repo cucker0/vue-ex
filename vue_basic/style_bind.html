@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>style 绑定</title>
+    <script src="../static/js/vue.js"></script>
+
+    <style type="text/css">
+        .staticClass {
+            font-size: 30px;
+        }
+        .active {
+            color: green;
+        }
+        .text-danger {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h2>style 绑定--对象语法(js对象)</h2>
+    <div :style="{color: activeColor, fontSize: fontsize + 'px'}">style 绑定内联样式-- :style="{color: activeColor, fontSize: fontsize + 'px'}"</div>
+
+    <h2>style 绑定--对象语法(css对象变量)</h2>
+    <p :style="styleObject">style 绑定(计算属性返回的一个css样式对象)-- :style="styleObject"</p>
+
+    <h2>style 绑定--数组语法</h2>
+    <div :style="[baseStyles, overridingStyles]">sytle绑定(数组语法)-- :style="[baseStyles, overridingStyles]</div>
+</div>
+
+<script type="text/javascript">
+    const vm = new Vue({
+        el: "#app",
+        data: {
+            isActive: true,
+            error: null,
+            baseStyles: {color: "#112233"},
+            overridingStyles: {background: "#bfa"}
+        },
+        computed: {
+            styleObject() {
+                return {
+                    color: "red",
+                    fontSize: "18px"
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
