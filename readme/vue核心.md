@@ -654,3 +654,12 @@ xxx 是数组
     ```html
     <div style="color: rgb(17, 34, 51); background: rgb(187, 255, 170);">sytle绑定(数组语法)...</div>
     ```
+    
+* 多重值
+
+    常用于提供多个带前缀的值
+    ```html
+    <div :style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }"></div>
+    ```
+    在本例中，如果浏览器支持不带浏览器前缀的 flexbox，那么就只会渲染 `display: flex`
+    
