@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-for 列表渲染</title>
+    <script src="../static/js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <h2>v-for 遍历数组</h2>
+    <div>
+        <h3>更新操作输入</h3>
+        <label>
+            姓名：<input v-model="nameTemp">
+        </label>
+        <label>
+            年龄：<input v-model.number="ageTemp" type="number">
+        </label>
+    </div>
+    <ul>
+        <li v-for="(p, index) in persons" :key="index">#{{index}}，姓名：{{p.name}}，年龄：{{p.age}} --
+            <button @click="delPerson(index)">删除</button> <button @click="updatePerson(index)">更新</button>
+        </li>
+    </ul>
+
+
+    <h2>v-for 遍历对象</h2>
+    <h4>遍历出对象的 value</h4>
+    <ul>
+        <li v-for="value in books">
+            {{value}}
+        </li>
+    </ul>
+
+    <h4>遍历出对象的 key-value 对</h4>
+    <ul>
+        <li v-for="(value, key) in books" :key="key">
+            键名：{{key}}，值：{{value}}
+        </li>
+    </ul>
+
+    <h2>v-for 值范围循环</h2>
+    <div id="range" class="demo">
+        <span v-for="n in 10" :key="n">{{ n }} </span>
+    </div>
+</div>
+
+<script>
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            persons: [
+                {name: "Tom", age: 18},
+                {name: "Jack", age: 20},
+                {name: "Bob", age: 23},
+                {name: "Rose", age: 21},
+            ],
+            nameTemp: "",
+            ageTemp: null,
+            books: {
+                title: 'How to do lists in Vue',
+                author: 'Jane Doe',
+                publishedDate: '2022-03-22'
+            }
+        },
+        methods: {
+            delPerson(index) {
+                // 从数据 persons 中删除指定的下标元素
+                this.persons.splice(index, 1)
+            },
+            updatePerson(index) {
+                if (this.nameTemp.trim().length === 0 || !(typeof this.ageTemp === "number")) {
+                    return
+                }
+                this.persons[index].name = this.nameTemp;
+                this.persons[index].age = this.ageTemp;
+                this.nameTemp = "";
+                this.ageTemp = null
+
+                // // 这种更新，能改变数据，但界面不会更新
+                // this.persons[index] = {name: "Tad", age: 25}
+
+                // // 替换更新
+                // this.persons.splice(index, 1, {name: "Tad", age: 25})
+                //
+                // // 新增
+                // this.persons.splice(index, 0, {name: "Tad", age: 25})
+            }
+        }
+    })
+</script>
+</body>
+</html>

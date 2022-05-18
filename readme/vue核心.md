@@ -822,3 +822,174 @@ xxx 是数组
 不推荐同时使用 `v-if` 和 `v-for`
 
 当 `v-if` 与 `v-for` 一起使用时，`v-if` 具有比 `v-for` 更高的优先级。
+
+
+## 列表渲染
+
+* 维护状态
+
+当 Vue 正在更新使用 v-for 渲染的元素列表时，它默认使用“就地更新”的策略。如果数据项的顺序被改变，Vue 将不会移动 DOM 元素来匹配数据项的顺序，而是就地更新每个元素，并且确保它们在每个索引位置正确渲染。
+
+这个默认的模式是高效的，但是只适用于不依赖子组件状态或临时 DOM 状态
+
+为了给 Vue 一个提示，以便它能跟踪每个节点的身份，从而重用和重新排序现有元素，你需要为每项提供一个唯一的 key attribute
+
+```html
+<div v-for="item in items" :key="item.id">
+  <!-- 内容 -->
+</div>
+```
+
+### v-for 遍历数组
+用 v-for 把一个数组映射为一组元素
+
+语法格式
+```html
+<li v-for="(element, index) in obj" :key="index">{{index}} -- {{element.xx}}</li>
+
+
+// 或
+<li v-for="element in obj">{{element.xx}}</li>
+
+// 也可以用 of 替代 in 作为分隔符，因为它更接近 JavaScript 迭代器的语法
+<div v-for="item of items"></div>
+```
+
+* v-model.number  字符串自动转换成数字
+    ```html
+    <input v-model.number="ageTemp" type="number">
+    ```
+
+    [v-for.html 示例](../vue_basic/v-for.html)
+    
+    ```html
+        <ul>
+            <li v-for="(p, index) in persons" :key="index">#{{index}}，姓名：{{p.name}}，年龄：{{p.age}} --
+                <button @click="delPerson(index)">删除</button> <button @click="updatePerson(index)">更新</button>
+            </li>
+        </ul>
+    ```
+    
+    ```js
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                // 默认：只监视 persons 本身的变化，不监视内部元素的变化
+                persons: [
+                    {name: "Tom", age: 18},
+                    {name: "Jack", age: 20},
+                    {name: "Bob", age: 23},
+                    {name: "Rose", age: 21},
+                ]
+            }
+        })
+    ```
+    
+    ![](../image/v-for01.png)
+    
+
+### 数组更新检测
+* 变更方法
+
+    Vue 将被侦听的数组的变更方法进行了封装，为了触发视图更新。
+    原理：  
+    1. 调用 数组原来的方法(如 pop()、push()、sort()、reverse()等)，
+    2. 更新界面
+
+    封装的方法：
+    ```js
+    push()
+    pop()
+    shift()
+    unshift()
+    splice()
+    sort()
+    reverse()
+    ```
+
+* 替换数组
+
+    filter()、concat() 和 slice()等方法，它们不会变更原始数组，而总是**返回一个新数组**。
+    
+### v-for 遍历对象
+[v-for.html](../vue_basic/v-for.html)
+```html
+<h4>遍历出对象的 value</h4>
+    <ul>
+        <li v-for="value in books">
+            {{value}}
+        </li>
+    </ul>
+
+    <h4>遍历出对象的 key-value 对</h4>
+    <ul>
+        <li v-for="(value, key) in books">
+            键名：{{key}}，值：{{value}}
+        </li>
+    </ul>
+```
+![](../image/v-for02.png)
+
+### 在 v-for 里使用值的范围
+v-for 也可以接受整数。在这种情况下，它会把模板重复对应次数。起始数从 1 开始
+```html
+<div id="range" class="demo">
+  <span v-for="n in 10" :key="n">{{ n }} </span>
+</div>
+```
+
+渲染结果：  
+![](../image/v-for03.png)
+
+### 在`<template>`中使用 v-for
+```html
+<ul>
+  <template v-for="item in items" :key="item.msg">
+    <li>{{ item.msg }}</li>
+    <li class="divider" role="presentation"></li>
+  </template>
+</ul>
+```
+
+### v-for 与 v-if 一同使用
+注意我们不推荐在同一元素上使用 v-if 和 v-for。
+
+当它们处于同一节点，v-if 的优先级比 v-for 更高，这意味着 v-if 将没有权限访问 v-for 里的变量：
+
+```html
+<!-- 这将抛出一个错误，因为“todo” property 没有在实例上定义 -->
+
+<li v-for="todo in todos" v-if="!todo.isComplete">
+  {{ todo.name }}
+</li>
+```
+
+可以把 v-for 移动到 <template> 标签中来修正：
+```html
+<template v-for="todo in todos" :key="todo.name">
+  <li v-if="!todo.isComplete">
+    {{ todo.name }}
+  </li>
+</template>
+```
+
+### 在组件上使用 v-for
+在自定义组件上，你可以像在任何普通元素上一样使用 v-for：
+```html
+<my-component v-for="item in items" :key="item.id"></my-component>
+```
+
+然而，任何数据都不会被自动传递到组件里，因为组件有自己独立的作用域。为了把迭代数据传递到组件里，我们要使用 props：
+```html
+<my-component
+  v-for="(item, index) in items"
+  :item="item"
+  :index="index"
+  :key="item.id"
+></my-component>
+```
+
+### 显示过滤/排序后的结果
+有时，我们想要显示一个数组经过过滤或排序后的版本，而不实际变更或重置原始数据。在这种情况下，可以创建一个计算属性，来返回过滤或排序后的数组。
+
+

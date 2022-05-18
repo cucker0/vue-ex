@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-for 列表渲染--过滤/排序</title>
+    <script src="../static/js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <label>
+        搜索：<input v-model="searchKey" placeholder="输入关键字">
+    </label>
+    <ul>
+        <li v-for="(p, index) in filterPersons" :key="index">
+            #{{index}}，姓名：{{p.name}}，年龄：{{p.age}}
+        </li>
+    </ul>
+    <button @click="changeOrderType(1)">年龄升序</button>
+    <button @click="changeOrderType(2)">年龄降序</button>
+    <button @click="changeOrderType(0)">默认顺序</button>
+</div>
+
+<script>
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            persons: [
+                {name: "Tom", age: 18},
+                {name: "Jack", age: 20},
+                {name: "Bob", age: 23},
+                {name: "Rose", age: 21},
+            ],
+            searchKey: "",
+            orderType: 0  // 0: 默认顺序，1: 年龄升序，2: 年龄降序
+        },
+        computed: {
+            filterPersons() {
+                const {persons, searchKey, orderType} = this
+                // // 等价于下面这两条语句
+                // const persons = this.persons
+                // const searchKey = this.searchKey
+
+                var tempPersons = persons
+                if (searchKey.trim().length > 0) {
+                    // 关键字过滤
+                    tempPersons = persons.filter(person => person.name.indexOf(searchKey) !== -1)
+                }
+
+                // 排序
+                if (orderType !== 0) {
+                    tempPersons = tempPersons.sort(
+                        /**
+                         * @param p1
+                         * @param p2
+                         * return p1 - p2 的比较值
+                         *  如果为负数：则p1在前，p2在后
+                         *  为正数：则p2在前，p1在后
+                         */
+                        function (p1, p2) {
+                            if (orderType === 1) {
+                                return p1.age - p2.age
+                            } else {
+                                return p2.age - p1.age
+                            }
+                        }
+                    )
+                }
+
+                return tempPersons
+            }
+        },
+        methods: {
+            changeOrderType(type) {
+                this.orderType = type
+            }
+        }
+    })
+</script>
+</body>
+</html>
