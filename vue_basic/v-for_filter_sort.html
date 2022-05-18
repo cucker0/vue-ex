@@ -35,12 +35,12 @@
         },
         computed: {
             filterPersons() {
-                const {persons, searchKey, orderType} = this
+                const {persons, searchKey, orderType} = this;  // 监视这些属性的变化
                 // // 等价于下面这两条语句
                 // const persons = this.persons
                 // const searchKey = this.searchKey
 
-                var tempPersons = persons
+                var tempPersons = persons;
                 if (searchKey.trim().length > 0) {
                     // 关键字过滤
                     tempPersons = persons.filter(person => person.name.indexOf(searchKey) !== -1)
