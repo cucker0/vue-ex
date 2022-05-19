@@ -992,4 +992,19 @@ v-for 也可以接受整数。在这种情况下，它会把模板重复对应�
 ### 显示过滤/排序后的结果
 有时，我们想要显示一个数组经过过滤或排序后的版本，而不实际变更或重置原始数据。在这种情况下，可以创建一个计算属性，来返回过滤或排序后的数组。
 
+示例：
 
+[v-for_filter_sort.html](../vue_basic/v-for_filter_sort.html)
+
+排序    
+![](../image/v-for_filter1.png)  
+![](../image/v-for_filter2.png)  
+![](../image/v-for_filter3.png) 
+
+过滤 + 排序  
+![](../image/v-for_filter11.png)  
+![](../image/v-for_filter12.png)  
+![](../image/v-for_filter13.png)  
+
+
+## 事件处理
