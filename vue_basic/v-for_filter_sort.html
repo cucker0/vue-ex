@@ -35,7 +35,7 @@
         },
         computed: {
             filterPersons() {
-                const {persons, searchKey, orderType} = this;  // 监视这些属性的变化
+                const {persons, searchKey, orderType} = this;  // Vue会监视这些属性值的变化，从而触发 该计算属性（函数）
                 // // 等价于下面这两条语句
                 // const persons = this.persons
                 // const searchKey = this.searchKey
