@@ -40,7 +40,8 @@
                 // const persons = this.persons
                 // const searchKey = this.searchKey
 
-                var tempPersons = persons
+                // 为什么不是 var tempPersons = persons，因为 persons.slice() 会返回新的数组，这样就能够触发更新HTML界面
+                var tempPersons = persons.slice()
                 if (searchKey.trim().length > 0) {
                     // 关键字过滤
                     tempPersons = persons.filter(person => person.name.indexOf(searchKey) !== -1)
