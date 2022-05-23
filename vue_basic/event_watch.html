@@ -6,6 +6,39 @@
     <script src="../static/js/vue.js"></script>
 </head>
 <body>
+<div id="app">
+    <h2>监听事件</h2>
+    <button @click="test1">测试1</button>
+    <button @click="test2('恭喜发财')">测试2</button>
+    <button @click="test3">测试3按钮</button>
+    <!-- 等价于 -->
+<!--    <button @click="test3($event)">测试3按钮</button>-->
+    <button @click="test4($event, 100)"><b>测试4</b></button>
+</div>
+<script>
+    const vm = new Vue({
+        el: "#app",
+        data: {
 
+        },
+        methods: {
+            test1() {
+                alert("test1")
+            },
+            test2(msg) {
+                alert(msg)
+            },
+            test3(event) {
+                // 获取点击节点上的 html 内容
+                alert(event.target.innerHTML)
+            },
+            // 传 event 事件，及其它参数。
+            test4(event, num) {
+                // 可访问到原始 DOM 的事件
+                alert("number: " + num + ",  html: " + event.target.innerHTML)
+            }
+        }
+    });
+</script>
 </body>
 </html>

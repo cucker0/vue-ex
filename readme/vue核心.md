@@ -1008,3 +1008,229 @@ v-for 也可以接受整数。在这种情况下，它会把模板重复对应�
 
 
 ## 事件处理
+
+
+### 监听事件
+我们可以使用 v-on 指令 (通常缩写为 @ 符号) 来监听 DOM 事件，并在触发事件时执行一些。
+
+用法为 v-on:click="methodName" 或使用快捷方式 @click="methodName"
+
+示例：
+[event_watch.html](../vue_basic/event_watch.html)
+
+### 访问原始 DOM 的事件方法
+```html
+ <button @click="test3">测试3按钮</button>
+```
+等价于
+```html
+ <button @click="test3($event)">测试3按钮</button>
+```
+
+当需要访问原始的 DOM 事件，可以把 $event 变量传递给方法。
+```js
+test3(event) {
+    // 获取点击节点上的 html 内容
+    alert(event.target.innerHTML)
+}
+```
+
+### 多事件处理器
+事件处理程序中可以有多个方法，这些方法由逗号运算符分隔：
+    
+html
+```html
+<!-- 这两个 one() 和 two() 将执行按钮点击事件 -->
+<button @click="one($event), two($event)">
+  Submit
+</button>
+```
+
+js
+```js
+    const vm = new Vue({
+        el: "#app",
+        data: {
+
+        },
+        methods: {
+            one(event) {
+            // 第一个事件处理器逻辑...
+            },
+            two(event) {
+            // 第二个事件处理器逻辑...
+            }
+        }
+    });
+```
+
+### 事件修饰符
+在事件处理程序中调用 `event.preventDefault()` 或 `event.stopPropagation()` 是非常常见的需求。
+但更好的方式是：方法只有纯粹的数据逻辑，而不是去处理 DOM 事件细。
+
+Vue.js 为 v-on 提供了事件修饰符。
+```text
+.stop
+.prevent
+.capture
+.self
+.once
+.passive
+```
+
+
+未阻止事件继续冒泡
+```html
+<body>
+<div id="app">
+    <h2>阻止事件继续冒泡（即停止默认事件传播）</h2>
+    <div class="box1" @click="outer">
+        <div class="box2" @click="inner"></div>
+    </div>
+
+</div>
+<script>
+    const vm = new Vue({
+        el: "#app",
+        data: {
+
+        },
+        methods: {
+            outer() {
+                console.log("box1 -- outer --  事件")
+            },
+            inner() {
+                console.log("box2 -- inner --  事件")
+            }
+        }
+    });
+</script>
+</body>
+```
+
+![](../image/event_modifier1.png)
+
+
+阻止事件继续冒泡（即停止默认事件传播）
+
+```html
+    <div class="box1" @click="outer">
+        <div class="box2" @click.stop="inner"></div>
+    </div>
+```
+![](../image/event_modifier2.png)
+
+
+其它示例
+```html
+<!-- 阻止单击事件继续冒泡(写在内层) -->
+<a @click.stop="doThis"></a>
+
+<!-- 提交事件不再重载页面（阻止事件的默认行为） -->
+<form @submit.prevent="onSubmit"></form>
+
+<!-- 修饰符可以串联(停止事件传播，阻止默认事件) -->
+<a @click.stop.prevent="doThat"></a>
+
+<!-- 只有修饰符 -->
+<form @submit.prevent></form>
+
+<!-- 添加事件监听器时使用事件捕获模式 -->
+<!-- 即内部元素触发的事件先在此处理，然后才交由内部元素进行处理 -->
+<div @click.capture="doThis">...</div>
+
+<!-- 只当在 event.target 是当前元素自身时触发处理函数 -->
+<!-- 即事件不是从内部元素触发的 -->
+<div @click.self="doThat">...</div>
+
+<!-- 点击事件将只会触发一次 -->
+<a @click.once="doThis"></a>
+
+<!-- 滚动事件的默认行为 (即滚动行为) 将会立即触发，   -->
+<!-- 而不会等待 `onScroll` 完成，                    -->
+<!-- 以防止其中包含 `event.preventDefault()` 的情况  -->
+<div @scroll.passive="onScroll">...</div>
+```
+
+### 按键修饰符
+在监听键盘事件时，我们经常需要检查特定的按键。Vue 允许为 v-on 或者 @ 在监听键盘事件时添加按键修饰符
+
+[按键事件](https://developer.mozilla.org/en-US/docs/web/api/ui_events/keyboard_event_key_values)
+
+
+格式
+```html
+按键事件.按键别名=""
+
+// 或
+
+按键事件.keyCode=""
+其中 keyCode 为正整数值
+```
+
+示例：
+[key_modifier.html](../vue_basic/key_modifier.html)
+
+```html
+<!-- 只有在 `key` 是 `Enter` 时调用 `vm.submit()` -->
+<input @keyup.enter="submit" />
+
+<input @keyup.page-down="onPageDown" />
+```
+
+* 按键别名
+    
+    Vue 为最常用的键提供了别名
+    ```text
+    .enter
+    .tab
+    .delete (捕获“删除”和“退格”键)
+    .esc
+    .space
+    .up
+    .down
+    .left
+    .right
+    ```
+    
+* 系统修饰键
+    
+    可以用如下修饰符来实现仅在按下相应按键时才触发鼠标或键盘事件的监听器。
+    ```text
+    .ctrl
+    .alt
+    .shift
+    .meta
+    ```
+    
+    示例
+    ```html
+    <!-- Alt + Enter -->
+    <input @keyup.alt.enter="clear" />
+    
+    <!-- Ctrl + Click -->
+    <div @click.ctrl="doSomething">Do something</div>
+    ```
+
+* .exact 修饰符
+    
+    .exact 修饰符允许你控制由精确的系统修饰符组合触发的事件。
+    ```html
+    <!-- 即使 Alt 或 Shift 被一同按下时也会触发 -->
+    <button @click.ctrl="onClick">A</button>
+    
+    <!-- 有且只有 Ctrl 被按下的时候才触发 -->
+    <button @click.ctrl.exact="onCtrlClick">A</button>
+    
+    <!-- 没有任何系统修饰符被按下的时候才触发 -->
+    <button @click.exact="onClick">A</button>
+    ```
+
+* 鼠标按钮修饰符
+
+    仅响应特定的鼠标按钮操作
+    ```text
+    .left
+    .right
+    .middle
+    ```

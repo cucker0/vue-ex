@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>按键修饰符</title>
+    <script src="../static/js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <h2>按键修饰符</h2>
+    原始 DOM 的事件方法<input @keyup="test1" placeholder="按Enter键时读取内容">
+    <br>
+    @keyup.13<input @keyup.13="test2" placeholder="按Enter键时读取内容">
+    <br>
+    @keyup.enter<input @keyup.enter="test2" placeholder="按Enter键时读取内容">
+
+</div>
+<script>
+    const vm = new Vue({
+        el: "#app",
+        data: {},
+        methods: {
+            // 原始 DOM 事件的方法
+            test1(event) {
+                // // 读取按下的键对应的 keyCode
+                // console.log(event.keyCode);
+
+                // Enter 键对应的 keyCode 为 13
+                if (event.keyCode === 13) {
+                    alert(event.target.value)
+                }
+            },
+            test2(event) {
+                alert(event.target.value)
+            }
+        }
+    });
+</script>
+</body>
+</html>

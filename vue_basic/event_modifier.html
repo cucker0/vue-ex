@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件修饰符</title>
+    <script src="../static/js/vue.js"></script>
+    <style>
+        .box1 {
+            width: 300px;
+            height: 300px;
+            background: #42b983;
+        }
+        .box2 {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h2>阻止事件继续冒泡（即停止默认事件）</h2>
+    <div class="box1" @click="outer">
+        <div class="box2" @click="inner"></div>
+    </div>
+
+    <br>
+    <div class="box1" @click="outer">
+        <div class="box2" @click.stop="inner"></div>
+    </div>
+
+    <h2>阻止默认事件</h2>
+    <!-- a 标签不会跳转 -->
+    <a href="//www.baidu.com" @click.prevent>百度搜索</a>
+</div>
+<script>
+    const vm = new Vue({
+        el: "#app",
+        data: {
+
+        },
+        methods: {
+            outer() {
+                console.log("box1 -- outer --  事件")
+            },
+            inner() {
+                console.log("box2 -- inner --  事件")
+            }
+        }
+    });
+</script>
+</body>
+</html>
