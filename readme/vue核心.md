@@ -1155,7 +1155,7 @@ Vue.js 为 v-on 提供了事件修饰符。
 ### 按键修饰符
 在监听键盘事件时，我们经常需要检查特定的按键。Vue 允许为 v-on 或者 @ 在监听键盘事件时添加按键修饰符
 
-[按键事件](https://developer.mozilla.org/en-US/docs/web/api/ui_events/keyboard_event_key_values)
+[按键事件列表](https://developer.mozilla.org/en-US/docs/web/api/ui_events/keyboard_event_key_values)
 
 
 格式
@@ -1234,3 +1234,5 @@ Vue.js 为 v-on 提供了事件修饰符。
     .right
     .middle
     ```
+
+## 表单输入绑定
