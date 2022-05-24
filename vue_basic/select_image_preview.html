@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>在Vue项目中 选择图片并预览</title>
+    <script src="../static/js/vue.js"></script>
+    <style>
+        .avatar {
+            width: 150px;
+            height: 210px;
+            border: #99a9bf solid 1px;
+            overflow: hidden;
+        }
+        .avatar img {
+            width: 150px;
+        }
+        .tips {
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h2>在Vue项目中 选择图片并预览</h2>
+    <div>
+        <input type="file" id="avatar-picture" hidden="hidden" @change="filePreview" >
+        <!-- 通过点击头像框，触发点击上面的 input 框 -->
+        <div @click="selectImg()" class="avatar">
+            <div class="tips" v-if="tipsDisplay">点击上传头像</div>
+            <img :src="avatarUrl">
+        </div>
+    </div>
+</div>
+<script>
+    const vm = new Vue({
+        el: "#app",
+        data: {
+            tipsDisplay: true,
+            avatarUrl: ""
+        },
+        methods: {
+            filePreview(event) {
+                const _this = this
+                // 获取文件
+                var files = event.target.files[0];
+                if (!event || !window.FileReader) {
+                    return
+                }
+                // 把图片文件转 base64 编码字符串
+                const reader = new FileReader()
+                reader.readAsDataURL(files)
+                reader.onloadend = function () {
+                    _this.avatarUrl = this.result
+                    _this.tipsDisplay = false
+                }
+            },
+            selectImg() {
+                document.getElementById("avatar-picture").click()
+            }
+        }
+    });
+</script>
+</body>
+</html>

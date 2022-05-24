@@ -1236,3 +1236,12 @@ Vue.js 为 v-on 提供了事件修饰符。
     ```
 
 ## 表单输入绑定
+
+
+* 在Vue项目中 选择图片并预览
+    
+    示例
+    [select_image_preview.html](../vue_basic/select_image_preview.html)
+    
+    ![](../image/vue_select_image_preview01.png)  
+    ![](../image/vue_select_image_preview02.png)  
