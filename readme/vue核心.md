@@ -1235,7 +1235,7 @@ Vue.js 为 v-on 提供了事件修饰符。
     .middle
     ```
 
-## 表单输入绑定
+## 表单输入双向绑定--v-model
 表单原始提交方法
 ```html
 <!DOCTYPE html>
@@ -1276,3 +1276,31 @@ Vue.js 为 v-on 提供了事件修饰符。
     
     ![](../image/vue_select_image_preview01.png)  
     ![](../image/vue_select_image_preview02.png)  
+
+
+### v-model 修饰符
+* .lazy
+
+    在默认情况下，v-model 在每次 input 事件触发后将输入框的值与数据进行同步
+    
+    你可以添加 lazy 修饰符，从而转为在 change 事件之后进行同步
+    ```html
+    <!-- 在“change”时而非“input”时更新 -->
+    <input v-model.lazy="msg" />
+    ```
+    
+* .number
+
+    自动将用户的输入值转为数值类型
+    
+    ```html
+    <input v-model.number="age" type="number" />
+    ```
+
+* .trim
+
+    自动过滤用户输入的首尾空白字符
+    
+    ```html
+    <input v-model.trim="msg" />
+    ```
