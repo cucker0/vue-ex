@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>表单输入绑定--v-model</title>
     <script src="../static/js/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
         #app div {
             margin-bottom: 30px;
@@ -19,7 +20,7 @@
     <h2>
         表单输入绑定
     </h2>
-    <form action="./register.html" method="post">
+    <div>
         <div>
             <label>
                 用户：<input type="text" v-model="username">
@@ -31,7 +32,10 @@
                 密码：<input type="password" v-model="pwd">
             </label>
         </div>
-
+        <div>
+            头像：
+            <input type="file" @change="getFile($event)">
+        </div>
         <div>
 
             性别：
@@ -58,35 +62,28 @@
         </div>
         <div>
             城市：
-            <select v-model="city">
+            <select v-model="cityId">
                 <option disabled value="">请选择一个</option>
-                <option value="wuhan">武汉</option>
-                <option value="handan">邯郸</option>
-                <option value="nanjing">南京</option>
+                <option v-for="(city, index) in citysInfo" :key="index" :value="city.id">{{city.name}}</option>
             </select>
         </div>
         <div>
             喜欢的电影：
-            <select multiple="multiple" v-model="movies">
+            <select multiple="multiple" v-model="selectMovies">
                 <option disabled value="">可选择多个</option>
-                <option value="1100">我要我们在一起</option>
-                <option value="1101">坏蛋联盟</option>
-                <option value="1102">长津湖之水门桥</option>
-                <option value="1103">少年英雄董存瑞</option>
-                <option value="1104">神秘海域</option>
-                <option value="1105">奇迹.笨小孩</option>
+                <option v-for="(m, i) in moviesInfo" :key="i" :value="m.id">{{m.title}}</option>
             </select>
         </div>
         <div>
             介绍：<textarea class="self-introduction" placeholder="自我介绍" v-model="introduction"></textarea>
         </div>
         <div>
-            头像：
-            <input type="file" v-model="avatarPicture">
+            <button @click.prevent="submitForm">注册</button>
         </div>
-    </form>
+    </div>
 </div>
 <script>
+    Vue.prototype.$http = axios;
     const vm = new Vue({
         el: "#app",
         data: {
@@ -94,10 +91,49 @@
             pwd: "",
             gender: "0",
             hobby: [],
-            city: "",
-            movies: [],
+            citysInfo: [{id: 11, name: "武汉"}, {id: 22, name: "邯郸"}, {id: 33, name: "南京"}],
+            cityId: "",
+            moviesInfo: [
+                {id: 1100, title: "我要我们在一起"},
+                {id: 1101, title: "坏蛋联盟"},
+                {id: 1102, title: "长津湖之水门桥"},
+                {id: 1103, title: "少年英雄董存瑞"},
+                {id: 1104, title: "神秘海域"},
+                {id: 1105, title: "奇迹.笨小孩"}
+                ],
+            selectMovies: [],
             introduction: "",
             avatarPicture: ""
+        },
+        methods: {
+            getFile(event) {
+                this.avatarPicture = event.target.files[0];
+            },
+            submitForm(event) {
+                var formData = new FormData();
+                formData.append("username", this.username);
+                formData.append("pwd", this.pwd);
+                formData.append("gender", this.gender);
+                formData.append("hobby", this.hobby);
+                formData.append("cityId", this.cityId);
+                formData.append("selectMovies", this.selectMovies);
+                formData.append("introduction", this.introduction);
+                formData.append("avatarPicture", this.avatarPicture);
+
+                var config = {
+                    headers: {
+                        "content-type": "multipart/form-data"
+                    }
+                };
+
+                // this.$http.post(上传URL, 要上传的数据, 配置)
+                this.$http.post("/upload", formData, config)
+                    .then(function (res) {
+                        if (res.status === 200) {
+                            // 上传成功后的处理
+                        }
+                    });
+            }
         }
     });
 </script>

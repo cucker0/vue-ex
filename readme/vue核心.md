@@ -1236,8 +1236,39 @@ Vue.js 为 v-on 提供了事件修饰符。
     ```
 
 ## 表单输入绑定
+表单原始提交方法
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+</head>
+<body>
+<form action="/upload" method="post" enctype="multipart/form-data">
+    用户名：<input type="text" name="user" placeholder="请输入用户名">
+    年龄：<input type="password" name="pwd" placeholder="请输入密码">
+    头像：<input type="file" name="avatar">
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>
+```
 
+* 表单内容的文件和其它参数一起上传
 
+    使用 FormData 来模拟表单提交
+    
+    [v-model_form.html](../vue_basic/v-model_form.html)
+    
+    [java 后端 UploadServlet](https://github.com/cucker0/JavaWeb/blob/master/fileUploadAndDownload/src/com/java/web/UploadServlet.java)  
+    参考 https://github.com/cucker0/JavaWeb/blob/master/readme/fileUploadAndDownload.md#%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6
+    
+    ![](../image/form_bind01.png)  
+    ![](../image/form_bind02.png)  
+    ![](../image/form_bind03.png)  
+    
 * 在Vue项目中 选择图片并预览
     
     示例
