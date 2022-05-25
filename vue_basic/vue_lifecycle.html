@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue组件实例生命周期</title>
+    <script src="../static/js/vue-3.2.33.global.prod.js"></script>
+</head>
+<body>
+<div id="app">
+    <button @click="destroyVm">销毁vm实例</button>
+    <div v-if="isHide">
+        <p>金庸《倚天屠龙记》九阳真经的口诀（每1秒闪现一次）</p>
+        <pre>
+他强由他强，清风拂山岗；
+他横由他横，明月照大江。
+他自狠来他自恶，我自一口真气足。
+        </pre>
+    </div>
+</div>
+<script>
+    // Vue 3 已经不支持 构造函数这种写法了
+    // Uncaught TypeError: Vue is not a constructor
+    // const vm = new Vue()
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                isHide: false
+            }
+        },
+        methods: {
+            destroyVm() {
+                // 取消该应用的挂载。效果为：整个 app 挂载点会被直接摘除。
+                app.unmount()
+            }
+        },
+        mounted() {
+            /*
+            // 这种匿名函数内的 this 指 DOM 的 window 对象
+            setInterval(function() {
+                this.isHide = !this.isHide
+            }, 1000)
+            * */
+
+            // 使用箭头函数，函数内找不到时，会向外查找，这样就能找到 data property 值
+            this.intervalId = setInterval(() => {
+                console.log("Interval -----")
+                this.isHide = !this.isHide
+            }, 1000)
+        },
+        beforeUnmount() {
+            // 清除定时器
+            clearInterval(this.intervalId)
+        }
+
+    })
+
+    const vm = app.mount('#app')
+
+</script>
+</body>
+</html>

@@ -1304,3 +1304,64 @@ Vue.js 为 v-on 提供了事件修饰符。
     ```html
     <input v-model.trim="msg" />
     ```
+
+## 应用 & 组件实例
+
+```html
+<head>
+    <meta charset="UTF-8">
+    <title>根组件</title>
+    <script src="../static/js/vue-3.2.33.global.prod.js"></script>
+</head>
+
+<body>
+<div id="app">
+    <h2>Vue 根组件</h2>
+    <button @click="showmenu">点我的</button>
+    <ul v-if="isShowmenu">
+        <li v-for="(dish, index) in dishes" :key="index">菜品：{{dish.name}}, 价格：￥{{dish.price}}</li>
+    </ul>
+</div>
+<script>
+    // Vue 3 的写法。Vue 2 不支持
+
+    // 根组件的配置，这里的 data、methods、computed 等叫做 组件实例的 property
+    const RootComponent = {
+        data() {
+            return {
+                dishes: [{name: "清蒸鱼", price: 108}, {name: "水煮牛肉", price: 88}, {name: "腊肉藕尖", price: 66}],
+                isShowmenu: false
+            }
+        },
+        methods: {
+            showmenu(event) {
+                this.isShowmenu = !this.isShowmenu;
+            }
+        }
+    }
+
+    // 创建应用实例，并根据根组件的配置 首先创建 根组件
+    const app = Vue.createApp(RootComponent)
+
+    // 把 Vue 应用实例 挂载到指定的 DOM 元素中，并返回根组件实例
+    const vm = app.mount("#app")
+</script>
+</body>
+```
+
+效果：
+
+![](../image/root_component.png)
+
+允许用链式写法
+```js
+Vue.createApp({})
+  .component('SearchInput', SearchInputComponent)
+  .directive('focus', FocusDirective)
+  .use(LocalePlugin)
+```
+
+### 生成周期图示
+下图展示了 Vue 3 实例的生命周期。
+
+![](../image/lifecycle.svg)
