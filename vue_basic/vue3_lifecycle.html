@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vue组件实例生命周期</title>
+    <title>Vue3 组件实例生命周期</title>
     <script src="../static/js/vue-3.2.33.global.prod.js"></script>
 </head>
 <body>
@@ -34,6 +34,15 @@
                 app.unmount()
             }
         },
+        beforeCreate() {
+            console.log("beforeCreate() ...")
+        },
+        created() {
+            console.log("created() ...")
+        },
+        beforeMount() {
+            console.log("beforeMount() ...")
+        },
         mounted() {
             /*
             // 这种匿名函数内的 this 指 DOM 的 window 对象
@@ -48,11 +57,20 @@
                 this.isHide = !this.isHide
             }, 1000)
         },
+        beforeUpdate() {
+            console.log("beforeUpdate() ...")
+        },
+        updated() {
+            console.log("updated() ...")
+        },
         beforeUnmount() {
+            console.log("beforeUnmount() ...")
             // 清除定时器
             clearInterval(this.intervalId)
+        },
+        unmounted() {
+            console.log("unmount() ...")
         }
-
     })
 
     const vm = app.mount('#app')

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue2 组件实例生命周期</title>
+    <script src="../static/js/vue-min-2.6.14.js"></script>
+</head>
+<body>
+<div id="app">
+    <button @click="DestroyVm">销毁Vue 实例</button>
+    <div v-show="isShow">
+        <h4>《沁园春.雪》</h4>
+        <ul>
+            <li>北国风光，千里冰封，万里雪飘。</li>
+            <li>望长城内外，惟余莽莽；大河上下，顿失滔滔。</li>
+            <li>山舞银蛇，原驰蜡象，欲与天公试比高</li>
+            <li>须晴日，看红装素裹，分外妖娆。</li>
+            <li>江山如此多娇，引无数英雄竞折腰。</li>
+            <li>惜秦皇汉武，略输文采；唐宗宋祖，稍逊风骚。</li>
+            <li>一代天骄，成吉思汗，只识弯弓射大雕。</li>
+            <li>俱往矣，数风流人物，还看今朝。</li>
+        </ul>
+    </div>
+</div>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            isShow: true
+        },
+        methods: {
+            DestroyVm($event) {
+                // 销毁该 VM 实例。不会自动清理 Interval 定时器
+                this.$destroy()
+            }
+        },
+        beforeCreate() {
+            console.log("beforeCreate() ...")
+        },
+        created() {
+            console.log("created() ...")
+            // 使用箭头函数，函数内找不到时，会向外查找，这样就能找到 data property 值
+            // 添加定时器
+            this.intervalId = setInterval(() => {
+                console.log("定时闪现 ...", this.isShow)
+                this.isShow = !this.isShow
+            }, 1000)
+        },
+        beforeMount() {
+            console.log("beforeMount() ...")
+        },
+        mounted() {
+            console.log("mounted() ...")
+        },
+        beforeUpdate() {
+            console.log("beforeUpdate() ...")
+        },
+        updated() {
+            console.log("updated() ...")
+        },
+        beforeDestroy() {
+            console.log("beforeDestroy() ...")
+            // 清除 Interval 定时器
+            clearInterval(this.intervalId)
+        },
+        destroyed() {
+            console.log("destroyed() ...")
+        }
+    })
+</script>
+</body>
+</html>

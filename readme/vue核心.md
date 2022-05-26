@@ -1362,6 +1362,22 @@ Vue.createApp({})
 ```
 
 ### 生成周期图示
-下图展示了 Vue 3 实例的生命周期。
+* Vue 3 实例的生命周期
 
-![](../image/lifecycle.svg)
+    ![](../image/lifecycle-vue3.svg)
+    
+    示例：  
+    [vue3_lifecycle.html](../vue_basic/vue3_lifecycle.html)
+    
+    ![](../image/lifecycle-vue3-test01.png)  
+    ![](../image/lifecycle-vue3-test02.png)  
+
+* Vue 2 实例的生命周期
+
+    ![](../image/lifecycle-vue2.png)
+
+    示例：  
+    [vue2_lifecycle.html](../vue_basic/vue2_lifecycle.html)
+    
+    ![](../image/lifecycle-vue2-test01.png)  
+    ![](../image/lifecycle-vue2-test02.png) 
